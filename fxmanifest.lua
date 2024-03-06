@@ -1,12 +1,10 @@
 fx_version 'adamant'
 games { 'gta5' };
-
-name 'QBCore clean hud'
-description 'A simple clean interface hud for QBCore. Made by miquelmq20 for the FiveM community.'
+name 'qz-hud'
+author 'miquelmq20'
+description 'A Simple Clean Interface Hud For QBCore'
 version '2.0.0'
-
 ui_page 'html/ui.html'
-
 files {
     'html/*.png',
     'html/img/**.png',
@@ -15,15 +13,12 @@ files {
     'html/script.js',
     'html/main.css'
 }
-
 client_scripts {
-    'hud.lua'
+    'client/main.lua'
 }
-
 shared_scripts {
-    'config.lua'
+    'shared/config.lua'
 }
-
 server_scripts {
-    'server.lua'
+    'server/main.lua'
 }

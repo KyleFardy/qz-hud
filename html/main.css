@@ -85,7 +85,7 @@ body {
     font-size: 1vh;  
 }
 
-.oxigeno{
+.oxygen{
     margin-bottom: 3.4vh;
     margin-right: 1.2vw;
     font-family: sans-serif;
@@ -98,7 +98,7 @@ body {
     padding: 0.9vh 0.8vh;
 }
 
-.oxigenoagua{
+.underwater_time{
     margin-bottom: 3.4vh;
     margin-right: 1.2vw;
     font-family: sans-serif;
@@ -120,7 +120,7 @@ body {
     float: left;
 }
 
-.health, .armour,.food ,.thirst,.stress{
+.health, .armour, .food, .thirst, .stress, .userid{
     margin-right: 1.2vw;
     font-family: sans-serif;
     margin-top: .45vh;
@@ -138,12 +138,12 @@ body {
 
 /*------------------------------------------------------- BARRAS CINEMATICAS -------------------------------------------------------*/
 
-#barras{
+#bars{
     display: none;
     transition: 1s all;
 }
 
-#barra1{
+#bar1{
     position: absolute;
     bottom: 0%;
     width: 100%;
@@ -152,7 +152,7 @@ body {
     transition: 1s all;
 }
 
-#barra2{
+#bar2{
     position: absolute;
     top: 0%;
     width: 100%;
@@ -171,7 +171,7 @@ body {
 
 /*------------------------------------------------------- SPEEDOMETER -------------------------------------------------------*/
 
-.contenedoropciones{
+.vehicle_options{
     position: absolute;
     left: 0;
     top: 0;
@@ -179,7 +179,7 @@ body {
     height: 100%;
 }
 
-#faro{
+#lights{
     position: absolute;
     top: 44.5vh;
     transform: translateY(-50%);
@@ -204,7 +204,7 @@ body {
 }
 
 
-#daño{
+#vehicle_damage{
     position: absolute;
     top: 50vh;
     transform: translateY(-50%);
@@ -227,8 +227,7 @@ body {
 
     border: 0.23vh solid rgba(255, 255, 255, 0.637);
 }
-
-#cinturon{    
+#seatbelt{    
     position: absolute;
     top: 55.5vh;
     transform: translateY(-50%);
@@ -250,7 +249,7 @@ body {
     border: 0.23vh solid rgba(255, 255, 255, 0.637);
 }
 
-.kmnumero{
+.speed{
     position: absolute;
     bottom: .4vh;
     font-size: 3vw;
@@ -267,7 +266,7 @@ body {
     font-family: coche1;
 }
 
-.kmtexto{
+.speed_text{
     position: absolute;
     bottom: 1.4vh;
     left: 53.6vw;
@@ -282,7 +281,7 @@ body {
     font-family: coche1;
 }
 
-.marchas{
+.vehicle_gear{
     position: absolute;
     width: 1.2vw;
     padding: .1vw;
@@ -298,7 +297,7 @@ body {
     font-family: coche1;
 }
 
-.porcentaje{
+.fuel-percentage{
     position: absolute;
     right: 4vw;
     bottom: 4.15vh;

@@ -1,295 +1,92 @@
 (() => {
-    $(".marchas").fadeOut();
-    $(".kmnumero").fadeOut();
-    $(".kmtexto").fadeOut();
-    $(".contenedoropciones").fadeOut();
-    $(".barragasolina").fadeOut();
-    $(".fuel-progress").fadeOut();
-    $(".fuel-container").fadeOut();
-    $("#gaso-icon").fadeOut();
-    $(".porcentaje").fadeOut();
-    var selector = document.querySelector("#todo")
-    selector.style = "opacity:0.0;"
+    [
+        ".vehicle_gear",
+        ".speed",
+        ".speed_text",
+        ".vehicle_options",
+        ".fuel-progress",
+        ".fuel-container",
+        "#fuel-icon",
+        ".fuel-percentage"
+    ].forEach(element => $(element).fadeOut());
+    $("#todo").css("opacity", "0.0");
 });
-
+function update_stats (selector, value) {
+    $(`${selector}-percent`).html(Math.round(value) + "");
+    $(`${selector}-level`).css("width", value + "");
+};
+function toggle_element(selector, condition) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.style.display = condition ? 'block' : 'none';
+    } else {
+        console.error(`toggle_element : Element with selector '${selector}' not found.`);
+    }
+};
 $(function () {
     window.addEventListener("message", function (event) {
-
-        if (event.data.pauseMenu == false) {
-            var selector = document.querySelector("#todo")
-            selector.style = "opacity:1.0;"
-
-            var armour = event.data.armour;
-            $("#armour-percent").html(Math.round(armour) + "");
-            $("#armour-level").css("width", armour + "");
-
-            var health = event.data.health;
-            $("#health-percent").html(Math.round(health) + "");
-            $("#health-level").css("width", health + "");
-
-            var food = event.data.food;
-            $("#food-percent").html(Math.round(food) + "");
-            $("#food-level").css("width", food + "");
-
-            var thirst = event.data.thirst;
-            $("#thirst-percent").html(Math.round(thirst) + "");
-            $("#thirst-level").css("width", thirst + "");
-
-            var stress = event.data.stress;
-            $("#stress-percent").html(Math.round(stress) + "");
-            $("#stress-level").css("width", stress + "");
-
-            var id = event.data.id;
-            $("#id-percent").html("" + id);
-
-        } else {
-            var selector = document.querySelector("#todo")
-            selector.style = "opacity:0.0;"
-        }
-
-        if (event.data.estoyencoche == true) {
-
+        (event.data.clock_type == "mph" ? $('.speed_text').html("MPH") : $('.speed_text').html("KM/H"));
+        $('#watermark').attr('src', event.data.logo);
+        $("#todo").css("opacity", event.data.pauseMenu ? "0.0" : "1.0");
+        if (event.data.in_vehicle) {
             var selector2 = document.querySelector("#ui")
             selector2.style = "opacity:1.0; left:17%; margin-top:1vh; bottom:0%; display:block;bottom:2%;overflow: hidden;"
-
-            //var selectorid = document.querySelector("#others")
-            //selectorid.style = "opacity:0.0;"
-
-            var selectorid2 = document.querySelector("#ox")
-            selectorid2.style = "opacity:0.0;"
-
-            var armour = event.data.armour;
-            $("#armour-percent2").html(Math.round(armour) + "");
-            $("#armour-level2").css("width", armour + "");
-
-            var health = event.data.health;
-            $("#health-percent2").html(Math.round(health) + "");
-            $("#health-level2").css("width", health + "");
-
-            var food = event.data.food;
-            $("#food-percent2").html(Math.round(food) + "");
-            $("#food-level2").css("width", food + "");
-
-            var thirst = event.data.thirst;
-            $("#thirst-percent2").html(Math.round(thirst) + "");
-            $("#thirst-level2").css("width", thirst + "");
-
-            var stress = event.data.stress;
-            $("#stress-percent2").html(Math.round(stress) + "");
-            $("#stress-level2").css("width", stress + "");
-
+            $("#ox").css("opacity", "0.0");
+            update_stats("#armour", event.data.armour);
+            update_stats("#health", event.data.health);
+            update_stats("#food", event.data.food);
+            update_stats("#thirst", event.data.thirst);
+            update_stats("#stress", event.data.stress);
+            update_stats("#userid", event.data.userid);
         } else {
-
-            var selectorid2 = document.querySelector("#ox")
-            selectorid2.style = "opacity:1.0;"
-
+            $("#ox").css("opacity", "1.0");
             var selector2 = document.querySelector("#ui")
             selector2.style = "opacity:1.0;"
-
-            //var selectorid = document.querySelector("#others")
-            //selectorid.style = "opacity:1.0;"
-
         }
-
-        if (event.data.isinthewater == true || event.data.isinthewater == 1) {
-
-            var selectorid = document.querySelector(".oxigeno")
-            selectorid.style = "opacity:0.0;"
-
-            var selector1 = document.querySelector(".oxigenoagua")
-            selector1.style = "opacity:1.0;"
-
-            var armour = event.data.armour;
-            $("#armour-percent2").html(Math.round(armour) + "");
-            $("#armour-level2").css("width", armour + "");
-
-            var health = event.data.health;
-            $("#health-percent2").html(Math.round(health) + "");
-            $("#health-level2").css("width", health + "");
-
-            var food = event.data.food;
-            $("#food-percent2").html(Math.round(food) + "");
-            $("#food-level2").css("width", food + "");
-
-            var thirst = event.data.thirst;
-            $("#thirst-percent2").html(Math.round(thirst) + "");
-            $("#thirst-level2").css("width", thirst + "");
-
-            var oxigenoagua = event.data.oxigenoagua;
-            $("#oxigenoagua-percent").html(Math.round(oxigenoagua) + "");
-            $("#oxigenoagua-level").css("width", oxigenoagua + "");
-
-
+        if (event.data.isinthewater || event.data.isinthewater === 1) {
+            $(".oxygen").css("opacity", "0.0");
+            $(".underwater_time").css("opacity", "1.0");
+            update_stats("#armour", event.data.armour);
+            update_stats("#health", event.data.health);
+            update_stats("#food", event.data.food);
+            update_stats("#thirst", event.data.thirst);
+            update_stats("#underwater_time", event.data.underwater_time);
         } else {
-
-            var oxigeno = event.data.oxigeno;
-            $("#oxigeno-percent").html(Math.round(oxigeno) + "");
-            $("#oxigeno-level").css("width", oxigeno + "");
-
-            var selectorid = document.querySelector(".oxigeno")
-            selectorid.style = "opacity:1.0;"
-
-            var selector1 = document.querySelector(".oxigenoagua")
-            selector1.style = "opacity:0.0;"
+            update_stats("#oxygen", event.data.oxygen);
+            $(".oxygen").css("opacity", "1.0");
+            $(".underwater_time").css("opacity", "0.0");
         }
-
-        if (event.data.isVIP == true || event.data.isinthewater == 1) {
-
-            var selectorid = document.querySelector(".oxigeno")
-            selectorid.style = "opacity:0.0;"
-
-            var selector1 = document.querySelector(".oxigenoagua")
-            selector1.style = "opacity:1.0;"
-
-            var armour = event.data.armour;
-            $("#armour-percent2").html(Math.round(armour) + "");
-            $("#armour-level2").css("width", armour + "");
-
-            var health = event.data.health;
-            $("#health-percent2").html(Math.round(health) + "");
-            $("#health-level2").css("width", health + "");
-
-            var food = event.data.food;
-            $("#food-percent2").html(Math.round(food) + "");
-            $("#food-level2").css("width", food + "");
-
-            var thirst = event.data.thirst;
-            $("#thirst-percent2").html(Math.round(thirst) + "");
-            $("#thirst-level2").css("width", thirst + "");
-
-            var oxigenoagua = event.data.oxigenoagua;
-            $("#oxigenoagua-percent").html(Math.round(oxigenoagua) + "");
-            $("#oxigenoagua-level").css("width", oxigenoagua + "");
-
-
-        } else {
-
-            var oxigeno = event.data.oxigeno;
-            $("#oxigeno-percent").html(Math.round(oxigeno) + "");
-            $("#oxigeno-level").css("width", oxigeno + "");
-
-            var selectorid = document.querySelector(".oxigeno")
-            selectorid.style = "opacity:1.0;"
-
-            var selector1 = document.querySelector(".oxigenoagua")
-            selector1.style = "opacity:0.0;"
-        }
-
-        if (event.data.quitarhud == true) {
-            var selector = document.querySelector("#All")
-            selector.style = "display:none;"
-
-        }
-
-        if (event.data.ponerhud == true) {
-            var selector = document.querySelector("#All")
-            selector.style = "display:block;"
-        }
-
-        if (event.data.ponerbarras == true) {
-            var selector = document.querySelector("#barras")
-            selector.style = "display:block;"
-            var selector2 = document.querySelector("#All")
-            selector2.style = "display:none;"
-        }
-
-        if (event.data.quitarbarras == true) {
-            var selector = document.querySelector("#barras")
-            selector.style = "display:none;"
-            var selector2 = document.querySelector("#All")
-            selector2.style = "display:block;"
-        }
-
-
-    })
-
-})
-
-
-$(function () {
-
+        toggle_element("#main_content", event.data.hide_hud);
+        toggle_element("#main_content", !event.data.show_hud);
+        toggle_element("#bars", event.data.start_cinematic);
+        toggle_element("#main_content", !event.data.stop_cinematic);
+    });
     window.addEventListener('message', function (event) {
         const v = event.data;
-
-        if (v.type === 'cinturon:toggle') {
-            if (v.toggle !== null || v.toggle === true && v.checkIsVeh != null || v.checkIsVeh === 1 === true) {
-                $('.cinturon').html(`
-                    <img src="./img/cinturon.png" id = "cinturon">
-                `)
-                //$('#cinturon').css({'filter' : 'invert(1)'})
-            }
-            if (v.checkIsVeh) {
-                if (v.toggle) {
-                    $('.cinturon').html(`
-                        <img src="./img/cinturonpuesto.png" id = "cinturon">
-                    `)
-                } else {
-                    $('.cinturon').html(`
-                        <img src="./img/cinturon.png" id = "cinturon">
-                    `)
-                }
-
-                if (v.toggle === true) { val = '0' } else { val = '1' }
-
-                //$('#cinturon').css({'filter' : 'invert('+val+')'})
-            }
+        if (v.type === 'seatbelt:toggle' && (v.toggle !== null || v.checkIsVeh != null || v.checkIsVeh === 1 === true)) {
+            $('.seatbelt').html(v.checkIsVeh ? `<img src="./img/seatbelt_${v.toggle ? 'on' : 'off'}.png" id="seatbelt">` : `<img src="./img/seatbelt_off.png" id="seatbelt">`);
         }
-
-
-        if (v.luces == 1) {
-            $('#faro').css({ 'color': 'white', 'text-shadow': '0 0 0 white' })
-        };
-
-        if (v.luceslargas == 1) {
-            $('#faro').css({ 'color': 'white', 'text-shadow': '0 0 .4vw white' })
-        };
-
-        if (v.luces == 0 && v.luceslargas == 0) {
-            $('#faro').css({ 'color': '#928b94', 'text-shadow': '0 0 0 white' })
+        if (v.vehicle_lights == 1) {
+            $('#lights').css({ color: 'white', 'text-shadow': '0 0 0 white' });
+        } else if (v.high_beam == 1) {
+            $('#lights').css({ color: 'white', 'text-shadow': '0 0 .4vw white' });
+        } else {
+            $('#lights').css({ color: v.vehicle_lights == 0 && v.high_beam == 0 ? '#928b94' : 'inherit', 'text-shadow': '0 0 0 white' });
         }
-
-        if (v.locked == 1) {
-            $('#bloqueo').css({ 'color': 'rgb(0, 235, 74)' });
-        } else if (v.locked == 2) {
-            $('#bloqueo').css({ 'color': 'rgb(235, 0, 51)' });
-        }
-
-        if (v.damage <= 900) {
-            $('#daño').css({ 'color': 'rgb(235, 0, 51)' });
-        } else if (v.damage > 900) {
-            $('#daño').css({ 'color': '#928b94' });
-        }
-
+        $('#vehicle_lock').css({ color: v.locked == 1 ? 'rgb(0, 235, 74)' : v.locked == 2 ? 'rgb(235, 0, 51)' : 'inherit' });
+        $('#vehicle_damage').css({ color: v.damage <= 900 ? 'rgb(235, 0, 51)' : v.damage > 900 ? '#928b94' : 'inherit' });
         if (v.type === 'carhud:update') {
             if (v.isInVehicle) {
-                $(".contenedoropciones").fadeIn();
-                $(".marchas").fadeIn();
-                $(".marchas").html(Math.round(v.gear) + "");
-                $(".kmnumero").fadeIn();
-                $(".kmtexto").fadeIn();
-                $(".kmnumero").html(('000' + Math.round(v.speed)).substr(-3));
-                $(".barragasolina").fadeIn();
-                $("#gaso-icon").fadeIn();
-                $(".fuel-container").fadeIn();
-                $(".fuel-progress").fadeIn();
-                $(".porcentaje").fadeIn();
+                [".vehicle_options", ".vehicle_gear", ".speed", ".speed_text", ".fuel-progress", ".fuel-container", "#fuel-icon", ".fuel-percentage"].forEach(element => $(element).fadeIn());
+                $(".vehicle_gear").html(Math.round(v.gear) + "");
+                $(".speed").html(('000' + Math.round(v.speed)).substr(-3));
                 $(".fuel-progress").css("width", Math.round(v.fuel) + "%");
-                $(".porcentaje").html(Math.round(v.fuel) + "%");
-                $(".porcentaje").html(Math.round(v.fuel) + "%");
-
+                $(".fuel-percentage").html(Math.round(v.fuel) + "%");
             } else {
-                $(".contenedoropciones").fadeOut();
-                $(".marchas").fadeOut();
-                $(".kmnumero").fadeOut();
-                $(".kmtexto").fadeOut();
-                $(".fuel-progress").fadeOut();
-                $(".fuel-container").fadeOut();
-                $("#gaso-icon").fadeOut();
-                $(".porcentaje").fadeOut();
+                [".vehicle_options", ".vehicle_gear", ".speed", ".speed_text", ".fuel-progress", ".fuel-container", "#fuel-icon", ".fuel-percentage"].forEach(element => $(element).fadeOut());
             }
-
             if (Math.round(v.speed) === 0) {
-                $(".kmnumero").html("000");
+                $(".speed").html("000");
             }
         }
     });
